@@ -1,4 +1,9 @@
 <?php
 return [
-    \Controller\ControllerTeste::class
+  'POST' => [
+    '/pessoas' => [
+      'controller' => \Controller\PessoaController::class,
+      'action' => 'criarPessoa'
+    ]
+  ]
 ];
