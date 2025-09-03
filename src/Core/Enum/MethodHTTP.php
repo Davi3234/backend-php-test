@@ -2,7 +2,7 @@
 
 namespace Core\Enum;
 
-enum MetodoHTTP: string {
+enum MethodHTTP: string {
     case GET = 'GET';
     case POST = 'POST';
     case PUT = 'PUT';
