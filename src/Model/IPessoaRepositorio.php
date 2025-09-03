@@ -1,4 +1,6 @@
 <?php
+namespace Model;
+
 interface IPessoaRepositorio{
   public function criar(Pessoa $pessoa): Pessoa;
   public function editar(Pessoa $pessoa): Pessoa;

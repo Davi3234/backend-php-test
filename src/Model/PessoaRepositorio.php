@@ -1,11 +1,15 @@
 <?php
 
+namespace Model;
+
+use Core\EntityManagerSingleton;
 use Doctrine\ORM\EntityManager;
+use Exception;
 class PessoaRepositorio implements IPessoaRepositorio{
   private EntityManager $entityManager;
 
-  public function __construct($entityManager){
-    $this->entityManager = $entityManager;
+  public function __construct(){
+    $this->entityManager = EntityManagerSingleton::getInstance();
   }
 
   public function criar(Pessoa $pessoa): Pessoa{

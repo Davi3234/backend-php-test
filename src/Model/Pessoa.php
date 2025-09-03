@@ -1,4 +1,5 @@
 <?php
+namespace Model;
 
 use Doctrine\ORM\Mapping\Column;
 use Doctrine\ORM\Mapping\Entity;
@@ -19,9 +20,19 @@ class Pessoa{
   #[Column(type: 'string')]
   private string $cpf;
 
-  public function __construct($id, $nome, $cpf){
+  public function __construct($id = 0, $nome, $cpf){
     $this->id = $id;
     $this->nome = $nome;
     $this->cpf = $cpf;
+  }
+
+  public function getId(){
+    return $this->id;
+  }
+  public function getNome(){
+    return $this->nome;
+  }
+  public function getCpf(){
+    return $this->cpf;
   }
 }
