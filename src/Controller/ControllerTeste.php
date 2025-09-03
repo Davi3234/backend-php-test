@@ -9,7 +9,7 @@ use Core\Http\Get;
 class ControllerTeste{
 
     #[Get('/ola/{nome}')]
-    public function olaMundo($params = []){
-        return "Olá ".$params['nome']."!";
+    public function olaPessoa($params = []){
+        return ['message' => "Olá ".$params['nome']."!"];
     }
 }
