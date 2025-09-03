@@ -1,18 +1,30 @@
 <?php
 
-use Doctrine\ORM\Tools\Setup;
+use Doctrine\DBAL\DriverManager;
+use Doctrine\ORM\ORMSetup;
 use Doctrine\ORM\EntityManager;
+use Dotenv\Dotenv;
 require_once "vendor/autoload.php";
 
-$isDevMode = true;
-$proxyDir = null;
-$cache = null;
-$useSimpleAnnotationReader = false;
-$config = Setup::createAnnotationMetadataConfiguration(array(__DIR__."/src"), $isDevMode, $proxyDir, $cache, $useSimpleAnnotationReader);
+$dotenv = Dotenv::createImmutable(__DIR__);
+$dotenv->load();
 
-$conn = array(
-    'driver' => 'pdo_sqlite',
-    'path' => __DIR__ . '/db.sqlite',
+$isDevMode = true;
+
+$config = ORMSetup::createAttributeMetadataConfiguration(
+  paths: array(__DIR__ . "/src"), 
+  isDevMode: $isDevMode
 );
 
-$entityManager = EntityManager::create($conn, $config);
+$conn = array(
+  'driver' => $_ENV['DB_DRIVER'],
+  'host' => $_ENV['DB_HOST'],
+  'port' => $_ENV['DB_PORT'],
+  'user' => $_ENV['DB_USER'],
+  'password' => $_ENV['DB_PASS'],
+  'dbname' => $_ENV['DB_NAME']
+);
+
+$connection = DriverManager::getConnection($conn, $config);
+
+$entityManager = new EntityManager($connection, $config);
