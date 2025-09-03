@@ -1,5 +1,9 @@
 <?php
 
+use Controller\PessoaController;
+use Core\Exception\HttpException;
+use Model\IPessoaRepositorio;
+use Model\Pessoa;
 use PHPUnit\Framework\TestCase;
 use PHPUnit\Util\Test;
 
@@ -62,7 +66,7 @@ class PessoaTeste extends TestCase{
 
   #[Test]
   public function testaCriarPessoaSemCpf(){
-    $this->expectException(Exception::class);
+    $this->expectException(HttpException::class);
 
     //Arrange
     $nome = "Davi";
@@ -89,7 +93,7 @@ class PessoaTeste extends TestCase{
 
   #[Test]
   public function testaCriarPessoaSemNome(){
-    $this->expectException(Exception::class);
+    $this->expectException(HttpException::class);
 
     //Arrange
     $nome = "";
