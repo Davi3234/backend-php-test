@@ -6,10 +6,12 @@ services:
       target: builder
     networks:
       app-network:
+    environment:
+      - .env
     depends_on:
       - banco
     ports:
-      - '80:80'
+      - '8080:80'
     volumes:
       - ./src:/var/www/html/src
       - ./public:/var/www/html/public
