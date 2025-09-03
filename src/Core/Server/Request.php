@@ -15,7 +15,8 @@ class Request{
     }
 
     public static function getRouterRequested(): string{
-        return parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+        $path = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH) ?? '/';
+        return rtrim($path, '/') ?: '/';
     }
 
     public static function getMethodHttpRequested(): string{

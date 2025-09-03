@@ -8,22 +8,20 @@ class Response{
     private bool $success = true;
     private string $message = '';
 
-    public function setSuccess(mixed $data = null, string $message = ''): void{
+    public function setSuccess(mixed $data = null, string $message = '', int $statusCode = 200): void{
         $this->success = true;
-        $this->statusCode = 200;
+        $this->statusCode = $statusCode;
         $this->data = $data ?? [];
         $this->message = $message;
     }
 
-    public function setError(\Throwable $error, int $status = 500): void{
+    public function setError(array $errors, int $status = 500): void{
         $this->success = false;
         $this->statusCode = $status;
         $this->data = [
-            'error' => $error->getMessage(),
-            'file' => $error->getFile(),
-            'line' => $error->getLine()
+            'errors' => $errors
         ];
-        $this->message = 'An error occurred';
+        $this->message = 'Ocorreu um erro';
     }
 
     public function setStatus(int $code, string $message = ''): void{
