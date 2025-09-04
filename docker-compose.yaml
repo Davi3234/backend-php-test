@@ -15,7 +15,9 @@ services:
     volumes:
       - ./src:/var/www/html/src
       - ./public:/var/www/html/public
+      - ./bin:/var/www/html/bin
       - ./composer.json:/var/www/html/composer.json
+      - ./.env:/var/www/html/.env
   banco:
     image: postgres:latest
     environment:
