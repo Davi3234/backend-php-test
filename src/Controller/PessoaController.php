@@ -10,43 +10,136 @@ use Model\PessoaRepositorio;
 
 class PessoaController{
 
-  public function __construct(
-    private IPessoaRepositorio $pessoaRepositorio = new PessoaRepositorio()
-  ){}
+    public function __construct(
+        private IPessoaRepositorio $pessoaRepositorio = new PessoaRepositorio()
+    ){}
 
-  /**
-   * Cria pessoa
-   * @param array $params
-   * @throws \Core\Exception\HttpException
-   * @return array Data
-   */
-  public function criarPessoa($params = []){
+    /**
+     * Cria pessoa
+     * @param array $params
+     * @return array Data
+     * @throws \Core\Exception\HttpException
+     */
+    public function criarPessoa($params = []){
 
-    $erros = [];
+        $erros = $this->validaDadosPessoa($params);
 
-    if (empty($params['nome'])) {
-      $erros[] = "O nome é de preenchimento obrigatório.";
+        if (!empty($erros)) {
+            throw new HttpException(400, $erros);
+        }
+
+        $pessoa = new Pessoa(
+            nome: $params['nome'],
+            cpf: $params['cpf']
+        );
+
+        $pessoaResponse = $this->pessoaRepositorio->criar($pessoa);
+
+        return [
+            'id' => $pessoaResponse->getId(),
+            'nome' => $pessoaResponse->getNome(),
+            'cpf' => $pessoaResponse->getCpf()
+        ];
     }
 
-    if (empty($params['cpf'])) {
-      $erros[] = "O CPF é de preenchimento obrigatório.";
+    /**
+     * Edita a pessoa
+     * @param array $params
+     * @return array Data
+     * @throws \Core\Exception\HttpException
+     */
+    public function editarPessoa($params = []){
+
+        $erros = $this->validaDadosPessoa($params);
+
+        if (!empty($erros)) {
+            throw new HttpException(400, $erros);
+        }
+
+        $pessoa = $this->pessoaRepositorio->buscar($params['id']);
+
+        $pessoa->setNome($params['nome']);
+        $pessoa->setCpf($params['cpf']);
+
+        $pessoaResponse = $this->pessoaRepositorio->editar($pessoa);
+
+        return [
+            'id' => $pessoaResponse->getId(),
+            'nome' => $pessoaResponse->getNome(),
+            'cpf' => $pessoaResponse->getCpf()
+        ];
     }
 
-    if (!empty($erros)) {
-      throw new HttpException(400, $erros);
+
+    /**
+     * Exclui a pessoa
+     * @param array $params
+     * @return array Data
+     * @throws \Core\Exception\HttpException
+     */
+    public function excluirPessoa($params = []){
+
+        $this->pessoaRepositorio->excluir($params['id']);
+
+        return [];
     }
 
-    $pessoa = new Pessoa(
-      nome: $params['nome'],
-      cpf: $params['cpf']
-    );
+    /**
+     * Lista as pessoas
+     * @param array $params
+     * @return array Data
+     * @throws \Core\Exception\HttpException
+     */
+    public function listarPessoas($params = []){
 
-    $pessoaResponse = $this->pessoaRepositorio->criar($pessoa);
+        $pessoasResponse = $this->pessoaRepositorio->listar();
 
-    return [
-      'id' => $pessoaResponse->id,
-      'nome' => $pessoaResponse->getNome(),
-      'cpf' => $pessoaResponse->getCpf()
-    ];
-  }
+        $pessoasMapeadas = array_map(function($pessoa){
+            return [
+                'id' => $pessoa->id,
+                'nome' => $pessoa->getNome(),
+                'cpf' => $pessoa->getCpf()
+            ];
+        }, $pessoasResponse);
+
+        return [
+            'pessoas' => $pessoasMapeadas
+        ];
+    }
+
+    /**
+     * Busca uma pessoa pelo id
+     * @param array $params
+     * @return array Data
+     * @throws \Core\Exception\HttpException
+     */
+    public function buscarPessoa($params = []){
+
+        $pessoaResponse = $this->pessoaRepositorio->buscar($params['id']);
+
+        return [
+            'id' => $pessoaResponse->getId(),
+            'nome' => $pessoaResponse->getNome(),
+            'cpf' => $pessoaResponse->getCpf()
+        ];
+    }
+
+    /**
+     * Valida os dados obrigatórios da pessoa
+     * @param array{nome: string, cpf: string} $params
+     * @return array $erros
+    */
+    public function validaDadosPessoa($params = []){
+        $erros = [];
+
+        if (empty($params['nome'])) {
+            $erros[] = "O nome é de preenchimento obrigatório.";
+        }
+
+        if (empty($params['cpf'])) {
+            $erros[] = "O CPF é de preenchimento obrigatório.";
+        }
+
+        return $erros;
+    }
 }
