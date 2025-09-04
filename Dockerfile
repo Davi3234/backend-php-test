@@ -3,7 +3,10 @@ FROM --platform=$BUILDPLATFORM php:8.4-apache AS builder
 RUN apt-get update && apt-get install -y --no-install-recommends \
   git \
   unzip \
+  libpq-dev \
   && rm -rf /var/lib/apt/lists/*
+
+RUN docker-php-ext-install pdo_pgsql
 
 WORKDIR /var/www/html
 RUN sed -i 's!/var/www/html!/var/www/html/public!g' /etc/apache2/sites-available/000-default.conf
@@ -27,4 +30,7 @@ RUN useradd -s /bin/bash -m vscode \
 
 RUN a2enmod rewrite
 
-CMD ["apache2-foreground"]
+COPY entrypoint.sh /usr/local/bin/entrypoint.sh
+RUN chmod +x /usr/local/bin/entrypoint.sh
+
+ENTRYPOINT ["entrypoint.sh"]
