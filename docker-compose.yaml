@@ -1,4 +1,15 @@
 services:
+  frontend:
+    build:
+      context: ./src/View
+      dockerfile: Dockerfile
+    networks:
+      app-network:
+    ports:
+      - '8081:80'
+    volumes:
+      - ./src/View:/usr/share/nginx/html/
+
   backend:
     build:
       context: .
@@ -18,6 +29,7 @@ services:
       - ./bin:/var/www/html/bin
       - ./composer.json:/var/www/html/composer.json
       - ./.env:/var/www/html/.env
+
   banco:
     image: postgres:latest
     environment:
