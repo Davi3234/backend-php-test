@@ -6,7 +6,7 @@ use Core\Server\Response;
 
 
 require __DIR__ . '/../vendor/autoload.php';
-require_once __DIR__ . '/../bootstrap.php';
+require_once __DIR__ . '/../bin/bootstrap.php';
 
 
 header('Access-Control-Allow-Origin: *');
