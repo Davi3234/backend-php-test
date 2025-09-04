@@ -28,10 +28,11 @@ class Contato{
     #[JoinColumn(name: "idPessoa", referencedColumnName: "id", nullable: false)]
     private Pessoa $pessoa;
 
-    public function __construct($tipo, $descricao, $pessoa){
+    public function __construct($tipo, $descricao, $pessoa, $id = null){
         $this->tipo = $tipo;
         $this->descricao = $descricao;
         $this->pessoa = $pessoa;
+        $this->id = $id;
     }
 
     public function getId(): int{

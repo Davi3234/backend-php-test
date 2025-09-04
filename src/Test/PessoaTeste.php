@@ -31,7 +31,8 @@ class PessoaTeste extends TestCase{
     );
     $pessoaDepois = new Pessoa(
       nome: $nome,
-      cpf: $cpf
+      cpf: $cpf,
+      id: $id
     );
 
     $this->pessoaRepositorio
@@ -53,6 +54,7 @@ class PessoaTeste extends TestCase{
       'message' => 'Pessoa criada com Sucesso',
       'data' => [
         'pessoa' => [
+          'id' => $id,
           'nome' => $nome,
           'cpf' => $cpf
         ]
@@ -82,7 +84,7 @@ class PessoaTeste extends TestCase{
           ->willThrowException();
 
     //Act
-    $resultado = $this->pessoaController->criarPessoa(
+    $this->pessoaController->criarPessoa(
       [
         'nome' => $nome,
         'cpf' => $cpf
@@ -109,7 +111,7 @@ class PessoaTeste extends TestCase{
           ->willThrowException();
 
     //Act
-    $resultado = $this->pessoaController->criarPessoa(
+    $this->pessoaController->criarPessoa(
       [
         'nome' => $nome,
         'cpf' => $cpf

@@ -27,10 +27,11 @@ class Pessoa{
     #[OneToMany(mappedBy: "pessoa", targetEntity: Contato::class)]
     private Collection $contatos;
 
-    public function __construct($nome, $cpf){
+    public function __construct($nome, $cpf, $id = null){
         $this->nome = $nome;
         $this->cpf = $cpf;
         $this->contatos = new ArrayCollection();
+        $this->id = $id;
     }
 
     public function getId(): int{
