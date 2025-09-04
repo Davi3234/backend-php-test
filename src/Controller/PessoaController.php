@@ -41,10 +41,12 @@ class PessoaController{
       cpf: $params['cpf']
     );
 
+    $pessoaResponse = $this->pessoaRepositorio->criar($pessoa);
+
     return [
-      'id' => $pessoa->getId(),
-      'nome' => $pessoa->getNome(),
-      'cpf' => $pessoa->getCpf()
+      'id' => $pessoaResponse->id,
+      'nome' => $pessoaResponse->getNome(),
+      'cpf' => $pessoaResponse->getCpf()
     ];
   }
 }

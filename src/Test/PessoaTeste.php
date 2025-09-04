@@ -30,7 +30,6 @@ class PessoaTeste extends TestCase{
       cpf: $cpf
     );
     $pessoaDepois = new Pessoa(
-      id: $id,
       nome: $nome,
       cpf: $cpf
     );
