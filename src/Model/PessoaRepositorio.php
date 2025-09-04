@@ -43,15 +43,23 @@ class PessoaRepositorio implements IPessoaRepositorio{
 
     public function excluir(int $id): void{
         try {
+            $pessoa = $this->buscar($id);
+
             $this->entityManager->beginTransaction();
-
-            $pessoa = $this->entityManager->find(Pessoa::class, $id);
-
             $this->entityManager->remove($pessoa);
+            $this->entityManager->flush();
             $this->entityManager->commit();
         } catch (Exception $e) {
             $this->entityManager->rollback();
             throw $e;
         }
+    }
+    public function listar(): array{
+        $pessoas = $this->entityManager->getRepository(Pessoa::class)->findAll();
+        return $pessoas;
+    }
+    public function buscar(int $id): Pessoa{
+        $pessoas = $this->entityManager->getRepository(Pessoa::class)->find($id);
+        return $pessoas;
     }
 }
