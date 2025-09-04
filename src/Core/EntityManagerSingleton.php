@@ -15,7 +15,7 @@ class EntityManagerSingleton{
   public static function getInstance(): EntityManager{
     if (self::$instance === null) {
       $config = ORMSetup::createAttributeMetadataConfiguration(
-        [__DIR__ . "/../src/Model"],
+        [__DIR__ . "/../Model"],
         true
       );
 
