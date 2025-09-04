@@ -96,7 +96,7 @@ class PessoaController{
 
         $pessoasMapeadas = array_map(function($pessoa){
             return [
-                'id' => $pessoa->id,
+                'id' => $pessoa->getId(),
                 'nome' => $pessoa->getNome(),
                 'cpf' => $pessoa->getCpf()
             ];
