@@ -2,9 +2,12 @@
 
 namespace Model;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping\Column;
 use Doctrine\ORM\Mapping\Entity;
 use Doctrine\ORM\Mapping\GeneratedValue;
+use Doctrine\ORM\Mapping\OneToMany;
 use Doctrine\ORM\Mapping\Table;
 use Doctrine\ORM\Mapping\Id;
 
@@ -16,14 +19,18 @@ class Pessoa{
     #[Column(type: 'integer')]
     #[GeneratedValue]
     private int $id;
-    #[Column(type: 'string')]
+    #[Column(type: 'string', length: 255)]
     private string $nome;
-    #[Column(type: 'string')]
+    #[Column(type: 'string', length: 14)]
     private string $cpf;
+
+    #[OneToMany(mappedBy: "pessoa", targetEntity: Contato::class)]
+    private Collection $contatos;
 
     public function __construct($nome, $cpf){
         $this->nome = $nome;
         $this->cpf = $cpf;
+        $this->contatos = new ArrayCollection();
     }
 
     public function getId(): int{
@@ -32,6 +39,10 @@ class Pessoa{
 
     public function getNome(){
         return $this->nome;
+    }
+
+    public function getContatos(): Collection{
+        return $this->contatos;
     }
 
     public function getCpf(){
