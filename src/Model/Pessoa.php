@@ -1,4 +1,5 @@
 <?php
+
 namespace Model;
 
 use Doctrine\ORM\Mapping\Column;
@@ -11,23 +12,37 @@ use Doctrine\ORM\Mapping\Id;
 #[Table(name: 'pessoas')]
 class Pessoa{
 
-  #[Id]
-  #[Column(type: 'integer')]
-  #[GeneratedValue]
-  public readonly int $id;
-  #[Column(type: 'string')]
-  private string $nome;
-  #[Column(type: 'string')]
-  private string $cpf;
+    #[Id]
+    #[Column(type: 'integer')]
+    #[GeneratedValue]
+    private int $id;
+    #[Column(type: 'string')]
+    private string $nome;
+    #[Column(type: 'string')]
+    private string $cpf;
 
-  public function __construct($nome, $cpf){
-    $this->nome = $nome;
-    $this->cpf = $cpf;
-  }
-  public function getNome(){
-    return $this->nome;
-  }
-  public function getCpf(){
-    return $this->cpf;
-  }
+    public function __construct($nome, $cpf){
+        $this->nome = $nome;
+        $this->cpf = $cpf;
+    }
+
+    public function getId(): int{
+        return $this->id;
+    }
+
+    public function getNome(){
+        return $this->nome;
+    }
+
+    public function getCpf(){
+        return $this->cpf;
+    }
+
+    public function setCpf(string $cpf): void{
+        $this->cpf = $cpf;
+    }
+
+    public function setNome(string $nome): void{
+        $this->nome = $nome;
+    }
 }
