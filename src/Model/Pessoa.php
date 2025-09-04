@@ -14,20 +14,15 @@ class Pessoa{
   #[Id]
   #[Column(type: 'integer')]
   #[GeneratedValue]
-  private int $id;
+  public readonly int $id;
   #[Column(type: 'string')]
   private string $nome;
   #[Column(type: 'string')]
   private string $cpf;
 
-  public function __construct($id = 0, $nome, $cpf){
-    $this->id = $id;
+  public function __construct($nome, $cpf){
     $this->nome = $nome;
     $this->cpf = $cpf;
-  }
-
-  public function getId(){
-    return $this->id;
   }
   public function getNome(){
     return $this->nome;
