@@ -3,6 +3,7 @@
 use Controller\PessoaController;
 use Core\Exception\HttpException;
 use Model\IPessoaRepositorio;
+use Model\IContatoRepositorio;
 use Model\Pessoa;
 use PHPUnit\Framework\TestCase;
 use PHPUnit\Util\Test;
@@ -10,12 +11,14 @@ use PHPUnit\Util\Test;
 class PessoaTest extends TestCase{
 
   private IPessoaRepositorio $pessoaRepositorio; 
+  private IContatoRepositorio $contatoRepositorio;
   private PessoaController $pessoaController;
 
   protected function setUp(): void{
     parent::setUp();
     $this->pessoaRepositorio = $this->createMock(IPessoaRepositorio::class);
-    $this->pessoaController = new PessoaController($this->pessoaRepositorio);
+    $this->contatoRepositorio = $this->createMock(IContatoRepositorio::class);
+    $this->pessoaController = new PessoaController($this->pessoaRepositorio, $this->contatoRepositorio);
   }
 
   #[Test]
