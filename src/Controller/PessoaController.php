@@ -4,6 +4,8 @@ namespace Controller;
 
 use Core\Exception\HttpException;
 use Core\Server\Response;
+use Model\ContatoRepositorio;
+use Model\IContatoRepositorio;
 use Model\IPessoaRepositorio;
 use Model\Pessoa;
 use Model\PessoaRepositorio;
@@ -11,7 +13,8 @@ use Model\PessoaRepositorio;
 class PessoaController{
 
     public function __construct(
-        private IPessoaRepositorio $pessoaRepositorio = new PessoaRepositorio()
+        private IPessoaRepositorio $pessoaRepositorio = new PessoaRepositorio(),
+        private IContatoRepositorio $contatoRepositorio = new ContatoRepositorio()
     ){}
 
     /**
@@ -78,6 +81,14 @@ class PessoaController{
      * @throws \Core\Exception\HttpException
      */
     public function excluirPessoa($params = []){
+
+        $pessoa = $this->pessoaRepositorio->buscar($params['id']);
+
+        if($pessoa->getContatos()->count() > 0){
+          foreach($pessoa->getContatos() as $contato){
+            $this->contatoRepositorio->excluir($contato->getId());
+          }
+        }
 
         $this->pessoaRepositorio->excluir($params['id']);
 
