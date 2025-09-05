@@ -31,9 +31,9 @@
 	</nav>
 
 	<div class="container mt-4">
-		<h3 class="mb-3">Cadastro de Pessoas</h3>
+		<h3 class="mb-3" id="titulo-edicao-pessoa">Edição de Pessoa - </h3>
 
-		<form class="row g-3">
+		<div class="row g-3">
 			<div class="col-md-6">
 				<label for="nome" class="form-label">Nome</label>
 				<input type="text" class="form-control" id="nome" placeholder="Digite o nome">
@@ -44,17 +44,26 @@
 			</div>
 
 			<div class="col-12">
-				<button type="submit" class="btn btn-success">Cadastrar</button>
+				<button class="btn btn-success" onclick="gravarPessoa()">Cadastrar</button>
 				<button type="reset" class="btn btn-secondary">Limpar</button>
 			</div>
-		</form>
+		</div>
 	</div>
 </body>
 
 </html>
 
 <script>
+	const params = new URLSearchParams(window.location.search);
+
+	const id = params.get("id");
+
+	const tituloPessoa = document.getElementById('titulo-edicao-pessoa');
+
+	tituloPessoa.innerText += ` ${id}`;
+
 	const cpfInput = document.getElementById('cpf');
+	const nomeInput = document.getElementById('nome');
 
 	cpfInput.addEventListener('input', function (e) {
 		let value = e.target.value.replace(/\D/g, '');
@@ -64,4 +73,49 @@
 		value = value.replace(/(\d{3})(\d{1,2})$/, '$1-$2');
 		e.target.value = value;
 	});
+
+	async function loadInfoPessoa(){
+		const response = await fetch("http://localhost:8080/pessoas/"+id, {
+            method: "GET",
+        });
+
+        if (response.ok) {
+			const responseData = await response.json();
+            cpfInput.value = responseData.data.cpf;
+			nomeInput.value = responseData.data.nome;
+        } else {
+            const responseData = await response.json();
+            const errors = responseData.data.errors;
+            alert("Pessoa não encontrada:\n" + errors.join("\n"));
+        }
+	}
+
+    async function gravarPessoa() {
+        const nome = document.getElementById("nome").value;
+        const cpf = document.getElementById("cpf").value;
+
+        const response = await fetch("http://localhost:8080/pessoas/"+id, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                nome: nome,
+                cpf: cpf
+            })
+        });
+
+        if (response.ok) {
+            alert("Pessoa alterada com sucesso!");
+            document.location = "/pessoa/consulta-pessoa.html";
+        } else {
+            const responseData = await response.json();
+            const errors = responseData.data.errors;
+            alert("Erro ao inserir:\n" + errors.join("\n"));
+        }
+    }
+
+	document.addEventListener("DOMContentLoaded", async function(event) {
+        await loadInfoPessoa();
+    });
 </script>
