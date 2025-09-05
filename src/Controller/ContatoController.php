@@ -71,10 +71,6 @@ class ContatoController{
 
         $pessoa = $this->pessoaRepositorio->buscar($params['idPessoa']);
 
-        if($pessoa == null){
-
-        }
-
         $contato->setTipo(TipoContato::tryFrom($params['tipo']));
         $contato->setDescricao($params['descricao']);
         $contato->setPessoa($pessoa);
