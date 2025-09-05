@@ -110,7 +110,8 @@ class ContatoController{
      */
     public function listarContatos($params = []){
 
-        $contatosResponse = $this->contatoRepositorio->listar();
+        $idPessoa = count($params) > 0 ? $params['idPessoa'] : "";
+        $contatosResponse = $this->contatoRepositorio->listarPelaPessoa($idPessoa);
 
         $contatosMapeados = array_map(function($contato){
             return [

@@ -103,13 +103,8 @@ class PessoaController{
      */
     public function listarPessoas($params = []){
 
-
-        if(!empty($params['nome'])){
-            $pessoasResponse = $this->pessoaRepositorio->listarPeloNome($params['nome']);
-        }
-        else{
-            $pessoasResponse = $this->pessoaRepositorio->listar();
-        }
+        $nome = count($params) > 0 ? $params['nome'] : "";
+        $pessoasResponse = $this->pessoaRepositorio->listarPeloNome($nome);
 
         $pessoasMapeadas = array_map(function($pessoa){
             return [

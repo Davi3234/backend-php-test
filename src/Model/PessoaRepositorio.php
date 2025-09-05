@@ -56,7 +56,7 @@ class PessoaRepositorio implements IPessoaRepositorio{
         }
     }
     public function listarPeloNome($nome = ''): array{
-        return $this->entityManager
+        $pessoas = $this->entityManager
             ->getRepository(Pessoa::class)
             ->createQueryBuilder('p')
             ->where('lower(p.nome) LIKE :nome')

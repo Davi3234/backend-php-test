@@ -59,6 +59,20 @@ class ContatoRepositorio implements IContatoRepositorio{
         $contatos = $this->entityManager->getRepository(Contato::class)->findAll();
         return $contatos;
     }
+    public function listarPelaPessoa(int $idPessoa): array{
+        if(!$idPessoa){
+            return $this->listar();
+        }
+        $contatos = $this->entityManager
+            ->getRepository(Contato::class)
+            ->createQueryBuilder('c')
+            ->where('c.pessoa = :pessoa')
+            ->setParameter('pessoa', $idPessoa)
+            ->getQuery()
+            ->getResult();
+        return $contatos;
+    }
+
     public function buscar(int $id): Contato{
         $contato = $this->entityManager->getRepository(Contato::class)->find($id);
 

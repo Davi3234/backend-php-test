@@ -87,6 +87,7 @@
                             <button class="btn btn-sm btn-warning" onclick="editarPessoa(${pessoa.id})">Editar</button>
                             <button class="btn btn-sm btn-primary" onclick="visualizarPessoa(${pessoa.id})">Visualizar</button>
                             <button class="btn btn-sm btn-danger" onclick="excluirPessoa(${pessoa.id})">Excluir</button>
+                            <button class="btn btn-sm btn-secondary" onclick="openContatos(${pessoa.id})">Contatos</button>
                         </td>
                     </tr>`;
                     tbody.innerHTML += row;
@@ -111,6 +112,9 @@
     }
     function visualizarPessoa(id){
         document.location = "/pessoa/visualizar-pessoa.html?id="+id;
+    }
+    function openContatos(id){
+        document.location = "/contato/consulta-contato.html?idPessoa="+id;
     }
     async function excluirPessoa(id) {
         if (!confirm("Deseja realmente excluir a pessoa?")) {

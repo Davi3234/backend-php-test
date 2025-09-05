@@ -33,7 +33,7 @@
 	</nav>
 
 	<div class="container mt-4">
-		<h3 class="mb-3">Consulta de Contatos</h3>
+		<h3 class="mb-3" id="titulo-consulta">Consulta de Contatos</h3>
 
 		<div class="row g-3 mb-3">
 			<div class="col-md-2">
@@ -59,16 +59,29 @@
 </html>
 
 <script>
+
+    const params = new URLSearchParams(window.location.search);
+
+    const idPessoa = params.get("idPessoa") ?? 0;
+
+    async function loadPessoaUrl(){
+        if(idPessoa){
+            let urlPessoa = "http://localhost:8080/pessoas/"+idPessoa;
+
+            const response = await fetch(urlPessoa);
+
+            const responseData = await response.json();
+
+            if(responseData.success){
+                document.getElementById('titulo-consulta').innerHTML += " - "+responseData.data.nome;
+            }
+        }
+    }
+
     async function listContatos() {
         try {
-			const params = new URLSearchParams(window.location.search);
 
-			const idPessoa = params.get("idPessoa");
-
-			let urlListaContatos = "http://localhost:8080/contatos";
-			if(idPessoa){
-				urlListaContatos += "?idPessoa="+idPessoa;
-			}
+			let urlListaContatos = "http://localhost:8080/contatos?idPessoa="+idPessoa;
 
             const response = await fetch(urlListaContatos);
 
@@ -141,5 +154,6 @@
 
     document.addEventListener("DOMContentLoaded", async function(event) {
         await listContatos();
+        await loadPessoaUrl();
     });
 </script>
