@@ -2,6 +2,7 @@
 
 namespace Controller;
 
+use Core\Enum\TipoContato;
 use Core\Exception\HttpException;
 use Model\IContatoRepositorio;
 use Model\Contato;
@@ -33,7 +34,7 @@ class ContatoController{
         $pessoa = $this->pessoaRepositorio->buscar($params['idPessoa']);
 
         $contato = new Contato(
-            tipo: $params['tipo'],
+            tipo: TipoContato::tryFrom($params['tipo']),
             descricao: $params['descricao'],
             pessoa: $pessoa
         );
@@ -70,7 +71,11 @@ class ContatoController{
 
         $pessoa = $this->pessoaRepositorio->buscar($params['idPessoa']);
 
-        $contato->setTipo($params['tipo']);
+        if($pessoa == null){
+
+        }
+
+        $contato->setTipo(TipoContato::tryFrom($params['tipo']));
         $contato->setDescricao($params['descricao']);
         $contato->setPessoa($pessoa);
 

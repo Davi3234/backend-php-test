@@ -20,7 +20,7 @@ class Contato{
     #[GeneratedValue]
     private int $id;
     #[Column(type: 'smallint', enumType: TipoContato::class)]
-    private int $tipo;
+    private TipoContato $tipo;
     #[Column(type: 'string', length: 255)]
     private string $descricao;
 
@@ -28,7 +28,7 @@ class Contato{
     #[JoinColumn(name: "idPessoa", referencedColumnName: "id", nullable: false)]
     private Pessoa $pessoa;
 
-    public function __construct($tipo, $descricao, $pessoa, $id = null){
+    public function __construct($tipo, $descricao, $pessoa, $id = 0){
         $this->tipo = $tipo;
         $this->descricao = $descricao;
         $this->pessoa = $pessoa;
@@ -39,7 +39,7 @@ class Contato{
         return $this->id;
     }
 
-    public function getTipo(){
+    public function getTipo(): TipoContato{
         return $this->tipo;
     }
 
@@ -55,7 +55,7 @@ class Contato{
         $this->descricao = $descricao;
     }
 
-    public function setTipo(int $tipo): void{
+    public function setTipo(TipoContato $tipo): void{
         $this->tipo = $tipo;
     }
 
