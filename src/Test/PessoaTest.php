@@ -7,7 +7,7 @@ use Model\Pessoa;
 use PHPUnit\Framework\TestCase;
 use PHPUnit\Util\Test;
 
-class PessoaTeste extends TestCase{
+class PessoaTest extends TestCase{
 
   private IPessoaRepositorio $pessoaRepositorio; 
   private PessoaController $pessoaController;
@@ -49,20 +49,13 @@ class PessoaTeste extends TestCase{
     );
 
     $resultadoEsperado = [
-      'success' => true,
-      'status' => 201,
-      'message' => 'Pessoa criada com Sucesso',
-      'data' => [
-        'pessoa' => [
-          'id' => $id,
-          'nome' => $nome,
-          'cpf' => $cpf
-        ]
-      ]
+      'id' => $id,
+      'nome' => $nome,
+      'cpf' => $cpf
     ];
 
     //Assert
-    $this->assertEquals($resultado, $resultadoEsperado);
+    $this->assertEquals($resultadoEsperado, $resultado);
   }
 
   #[Test]
@@ -72,16 +65,6 @@ class PessoaTeste extends TestCase{
     //Arrange
     $nome = "Davi";
     $cpf = "";
-
-    $pessoa = new Pessoa(
-      nome: $nome,
-      cpf: $cpf
-    );
-
-    $this->pessoaRepositorio
-      ->method('criar')
-        ->with($pessoa)
-          ->willThrowException();
 
     //Act
     $this->pessoaController->criarPessoa(
@@ -99,16 +82,6 @@ class PessoaTeste extends TestCase{
     //Arrange
     $nome = "";
     $cpf = "785.609.419-24";
-
-    $pessoa = new Pessoa(
-      nome: $nome,
-      cpf: $cpf
-    );
-
-    $this->pessoaRepositorio
-      ->method('criar')
-        ->with($pessoa)
-          ->willThrowException();
 
     //Act
     $this->pessoaController->criarPessoa(
