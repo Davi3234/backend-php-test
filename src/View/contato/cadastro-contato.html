@@ -42,19 +42,19 @@
 					<option value="2">Telefone</option>
 				</select>
 			</div>
-			<div class="col-md-4">
+			<div class="col-md-6">
 				<label for="descricao" class="form-label">Descrição</label>
 				<input type="text" class="form-control" id="descricao" placeholder="Digite a Descrição">
 			</div>
 			<div class="col-md-12">
 				<label for="idPessoa" class="form-label">Pessoa</label>
-				<select name="idPessoa" id="idPessoa" class="w-100">
+				<select type="text" name="idPessoa" id="idPessoa" class="w-100 form-control">
 					<option value=""></option>
 				</select>
 			</div>
 			<div class="col-12">
 				<button class="btn btn-success" onclick="gravarContato()">Cadastrar</button>
-				<button type="reset" class="btn btn-secondary">Limpar</button>
+				<button class="btn btn-secondary" onclick="limparCampos()">Limpar</button>
 			</div>
 		</div>
 	</div>
@@ -63,6 +63,12 @@
 </html>
 
 <script>
+
+    function limparCampos(){
+        document.getElementById("tipo").value = "";
+        document.getElementById("descricao").value = "";
+        document.getElementById("idPessoa").value = "";
+    }
 
 	async function listPessoas() {
         try {

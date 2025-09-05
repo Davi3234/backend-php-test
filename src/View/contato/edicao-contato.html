@@ -42,7 +42,7 @@
 					<option value="2">Telefone</option>
 				</select>
 			</div>
-			<div class="col-md-4">
+			<div class="col-md-6">
 				<label for="descricao" class="form-label">Descrição</label>
 				<input type="text" class="form-control" id="descricao" placeholder="Digite a Descrição">
 			</div>
@@ -54,7 +54,7 @@
 			</div>
 			<div class="col-12">
 				<button class="btn btn-success" onclick="gravarContato()">Cadastrar</button>
-				<button type="reset" class="btn btn-secondary">Limpar</button>
+				<button class="btn btn-secondary" onclick="limparCampos()">Limpar</button>
 			</div>
 		</div>
 	</div>
@@ -74,6 +74,12 @@
 	const tipoSelect = document.getElementById('tipo');
 	const descricaoInput = document.getElementById('descricao');
 	const pessoaSelect = document.getElementById('idPessoa');
+
+    function limparCampos(){
+        document.getElementById("tipo").value = "";
+        document.getElementById("descricao").value = "";
+        document.getElementById("idPessoa").value = "";
+    }
 
 	async function loadInfoContato(){
 		const response = await fetch("http://localhost:8080/contatos/"+id, {

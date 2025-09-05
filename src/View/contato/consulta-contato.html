@@ -79,9 +79,10 @@
 
             if (responseData.data && responseData.data.contatos.length > 0) {
                 responseData.data.contatos.forEach(contato => {
+                    let tipo = contato.tipo == 1 ? "E-mail" : contato.tipo == 2 ? "Telefone" : "Sem tipo";
                     const row = `
                     <tr>
-                        <td>${contato.tipo}</td>
+                        <td>${tipo}</td>
                         <td>${contato.descricao}</td>
                         <td>${contato.pessoa.nome}</td>
                         <td>

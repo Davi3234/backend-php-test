@@ -37,7 +37,7 @@
 
         <div class="row g-3 mb-3">
             <div class="col-md-6">
-                <input type="text" class="form-control" placeholder="Digite o nome da pessoa...">
+                <input type="text" class="form-control" placeholder="Digite o nome da pessoa..." id="nomeInput">
             </div>
             <div class="col-md-2">
                 <button type="submit" class="btn btn-primary w-100" onclick="listPessoas()">Buscar</button>
@@ -69,7 +69,8 @@
 <script>
     async function listPessoas() {
         try {
-            const response = await fetch("http://localhost:8080/pessoas");
+            const nomeInput = document.getElementById('nomeInput')
+            const response = await fetch("http://localhost:8080/pessoas?nome="+nomeInput.value);
 
             const responseData = await response.json();
 
