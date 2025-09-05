@@ -46,10 +46,11 @@
 				<tr>
 					<th>Tipo</th>
 					<th>Descrição</th>
+					<th>Pessoa</th>
 					<th>Ações</th>
 				</tr>
 			</thead>
-			<tbody>
+			<tbody id="dados-contatos">
 			</tbody>
 		</table>
 	</div>
@@ -94,7 +95,7 @@
             } else {
                 tbody.innerHTML = `
                 <tr>
-                    <td colspan="3" class="text-center">Nenhuma contato encontrado</td>
+                    <td colspan="3" class="text-center">Nenhum contato encontrado</td>
                 </tr>`;
             }
         } catch (err) {

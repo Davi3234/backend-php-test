@@ -20,10 +20,10 @@
 			<div class="collapse navbar-collapse" id="menuNav">
 				<ul class="navbar-nav me-auto mb-2 mb-lg-0">
 					<li class="nav-item">
-						<a class="nav-link active" href="/pessoa/consulta-pessoa.html">Consulta Pessoas</a>
+						<a class="nav-link" href="/pessoa/consulta-pessoa.html">Consulta Pessoas</a>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link" href="/contato/consulta-contato.html">Consulta de Contatos</a>
+						<a class="nav-link active" href="/contato/consulta-contato.html">Consulta de Contatos</a>
 					</li>
 				</ul>
 			</div>
@@ -48,7 +48,7 @@
 			</div>
 			<div class="col-md-12">
 				<label for="idPessoa" class="form-label">Pessoa</label>
-				<select name="idPessoa" id="idPessoa">
+				<select name="idPessoa" id="idPessoa" class="w-100">
 					<option value=""></option>
 				</select>
 			</div>
@@ -64,9 +64,31 @@
 
 <script>
 
+	async function listPessoas() {
+        try {
+            const response = await fetch("http://localhost:8080/pessoas");
+
+            const responseData = await response.json();
+
+            const selectPessoa = document.getElementById("idPessoa");
+            selectPessoa.innerHTML = "";
+
+            if (responseData.data && responseData.data.pessoas.length > 0) {
+                responseData.data.pessoas.forEach(pessoa => {
+                    const row = `
+                    <option value="${pessoa.id}">${pessoa.nome}</option>`;
+                    selectPessoa.innerHTML += row;
+                });
+            }
+        } catch (err) {
+            console.error("Erro ao buscar pessoas:", err);
+        }
+    }
+
     async function gravarContato() {
         const tipo = document.getElementById("tipo").value;
         const descricao = document.getElementById("descricao").value;
+        const idPessoa = document.getElementById("idPessoa").value;
 
         const response = await fetch("http://localhost:8080/contatos", {
             method: "POST",
@@ -75,7 +97,8 @@
             },
             body: JSON.stringify({
                 tipo: tipo,
-                descricao: descricao
+                descricao: descricao,
+                idPessoa: idPessoa
             })
         });
 
@@ -89,4 +112,8 @@
             alert("Erro ao inserir:\n" + errors.join("\n"));
         }
     }
+
+	document.addEventListener("DOMContentLoaded", async function(event) {
+        await listPessoas();
+    });
 </script>

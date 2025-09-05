@@ -20,10 +20,10 @@
 			<div class="collapse navbar-collapse" id="menuNav">
 				<ul class="navbar-nav me-auto mb-2 mb-lg-0">
 					<li class="nav-item">
-						<a class="nav-link active" href="/pessoa/consulta-pessoa.html">Consulta Pessoas</a>
+						<a class="nav-link" href="/pessoa/consulta-pessoa.html">Consulta Pessoas</a>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link" href="/contato/consulta-contato.html">Consulta de Contatos</a>
+						<a class="nav-link active" href="/contato/consulta-contato.html">Consulta de Contatos</a>
 					</li>
 				</ul>
 			</div>
@@ -36,7 +36,7 @@
 		<div class="row g-3">
 			<div class="col-md-6">
 				<label for="tipo" class="form-label">Tipo</label>
-				<select type="text" class="form-control" id="tipo" placeholder="Selecione o tipo">
+				<select class="form-control" id="tipo" placeholder="Selecione o tipo">
 					<option value=""></option>
 					<option value="1">E-mail</option>
 					<option value="2">Telefone</option>
@@ -48,7 +48,7 @@
 			</div>
 			<div class="col-md-12">
 				<label for="idPessoa" class="form-label">Pessoa</label>
-				<select name="idPessoa" id="idPessoa">
+				<select class="form-control" name="idPessoa" id="idPessoa" class="w-100" placeholder="Selecione a pessoa">
 					<option value=""></option>
 				</select>
 			</div>
@@ -63,16 +63,17 @@
 </html>
 
 <script>
+
 	const params = new URLSearchParams(window.location.search);
-
 	const id = params.get("id");
-
+	
 	const tituloContato = document.getElementById('titulo-edicao-contato');
+
+	tituloContato.innerText += ` ${id}`;
 
 	const tipoSelect = document.getElementById('tipo');
 	const descricaoInput = document.getElementById('descricao');
-
-	tituloContato.innerText += ` ${id}`;
+	const pessoaSelect = document.getElementById('idPessoa');
 
 	async function loadInfoContato(){
 		const response = await fetch("http://localhost:8080/contatos/"+id, {
@@ -83,6 +84,7 @@
 			const responseData = await response.json();
             tipoSelect.value = responseData.data.tipo;
 			descricaoInput.value = responseData.data.descricao;
+			pessoaSelect.value = responseData.data.pessoa.id;
         } else {
             const responseData = await response.json();
             const errors = responseData.data.errors;
@@ -90,23 +92,47 @@
         }
 	}
 
+	async function listPessoas() {
+        try {
+            const response = await fetch("http://localhost:8080/pessoas");
+
+            const responseData = await response.json();
+
+            const selectPessoa = document.getElementById("idPessoa");
+            selectPessoa.innerHTML = "";
+
+            if (responseData.data && responseData.data.pessoas.length > 0) {
+                responseData.data.pessoas.forEach(pessoa => {
+                    const row = `
+                    <option value="${pessoa.id}">${pessoa.nome}</option>`;
+                    selectPessoa.innerHTML += row;
+                });
+            }
+        } catch (err) {
+            console.error("Erro ao buscar pessoas:", err);
+        }
+    }
+
     async function gravarContato() {
         const tipo = document.getElementById("tipo").value;
         const descricao = document.getElementById("descricao").value;
+        const idPessoa = document.getElementById("idPessoa").value;
 
-        const response = await fetch("http://localhost:8080/contatos", {
+        const response = await fetch("http://localhost:8080/contatos/"+id, {
             method: "PUT",
             headers: {
                 "Content-Type": "application/json"
             },
             body: JSON.stringify({
                 tipo: tipo,
-                descricao: descricao
+                descricao: descricao,
+                idPessoa: idPessoa
             })
         });
-		
+
 		const responseData = await response.json();
-        if (response.ok) {
+		
+        if (responseData.success) {
             alert("Contato alterado com sucesso!");
             document.location = "/contato/consulta-contato.html";
         } else {
@@ -116,6 +142,7 @@
     }
 
 	document.addEventListener("DOMContentLoaded", async function(event) {
-        await loadInfoContato();
+        await listPessoas();
+		await loadInfoContato();
     });
 </script>
