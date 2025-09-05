@@ -20,7 +20,8 @@ services:
     environment:
       - .env
     depends_on:
-      - banco
+      banco:
+        condition: service_healthy
     ports:
       - '8080:80'
     volumes:
