@@ -80,11 +80,12 @@
             })
         });
 
-        if (response.ok) {
+		const responseData = await response.json();
+
+        if (responseData.success) {
             alert("Pessoa inserida com sucesso!");
             document.location = "/pessoa/consulta-pessoa.html";
         } else {
-            const responseData = await response.json();
             const errors = responseData.data.errors;
             alert("Erro ao inserir:\n" + errors.join("\n"));
         }

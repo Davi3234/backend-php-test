@@ -121,13 +121,15 @@
                 method: "DELETE"
             });
 
-            if (response.ok) {
-                alert("Pessoa excluída com sucesso!");
-                listPessoas();
-            } else {
-                const errorText = await response.text();
-                alert("Erro ao excluir: " + errorText);
-            }
+			const responseData = await response.json();
+
+			if (responseData.success) {
+				alert("Pessoa excluída com sucesso!");
+				document.location = "/pessoa/consulta-pessoa.html";
+			} else {
+				const errors = responseData.data.errors;
+				alert("Erro ao excluir:\n" + errors.join("\n"));
+			}
         } catch (err) {
             console.error("Erro na requisição:", err);
             alert("Ocorreu um erro ao excluir a pessoa.");

@@ -31,16 +31,30 @@
 	</nav>
 
 	<div class="container mt-4">
-		<h3 class="mb-3" id="titulo-visualizacao-pessoa">Visualização de Pessoa - </h3>
+		<h3 class="mb-3">Cadastro de Contatos</h3>
 
 		<div class="row g-3">
 			<div class="col-md-6">
-				<label for="nome" class="form-label">Nome</label>
-				<input readonly type="text" class="form-control" id="nome" placeholder="Digite o nome">
+				<label for="tipo" class="form-label">Tipo</label>
+				<select type="text" class="form-control" id="tipo" placeholder="Selecione o tipo">
+					<option value=""></option>
+					<option value="1">E-mail</option>
+					<option value="2">Telefone</option>
+				</select>
 			</div>
 			<div class="col-md-4">
-				<label for="cpf" class="form-label">CPF</label>
-				<input readonly type="text" class="form-control" id="cpf" placeholder="Digite o CPF" maxlength="14">
+				<label for="descricao" class="form-label">Descrição</label>
+				<input type="text" class="form-control" id="descricao" placeholder="Digite a Descrição">
+			</div>
+			<div class="col-md-12">
+				<label for="idPessoa" class="form-label">Pessoa</label>
+				<select name="idPessoa" id="idPessoa">
+					<option value=""></option>
+				</select>
+			</div>
+			<div class="col-12">
+				<button class="btn btn-success" onclick="gravarContato()">Cadastrar</button>
+				<button type="reset" class="btn btn-secondary">Limpar</button>
 			</div>
 		</div>
 	</div>
@@ -49,43 +63,30 @@
 </html>
 
 <script>
-	const params = new URLSearchParams(window.location.search);
 
-	const id = params.get("id");
+    async function gravarContato() {
+        const tipo = document.getElementById("tipo").value;
+        const descricao = document.getElementById("descricao").value;
 
-	const tituloPessoa = document.getElementById('titulo-visualizacao-pessoa');
-
-	tituloPessoa.innerText += ` ${id}`;
-
-	const cpfInput = document.getElementById('cpf');
-	const nomeInput = document.getElementById('nome');
-
-	cpfInput.addEventListener('input', function (e) {
-		let value = e.target.value.replace(/\D/g, '');
-		if (value.length > 11) value = value.slice(0, 11);
-		value = value.replace(/(\d{3})(\d)/, '$1.$2');
-		value = value.replace(/(\d{3})(\d)/, '$1.$2');
-		value = value.replace(/(\d{3})(\d{1,2})$/, '$1-$2');
-		e.target.value = value;
-	});
-
-	async function loadInfoPessoa(){
-		const response = await fetch("http://localhost:8080/pessoas/"+id, {
-            method: "GET",
+        const response = await fetch("http://localhost:8080/contatos", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                tipo: tipo,
+                descricao: descricao
+            })
         });
 
 		const responseData = await response.json();
-
+		
         if (responseData.success) {
-            cpfInput.value = responseData.data.cpf;
-			nomeInput.value = responseData.data.nome;
+            alert("Contato inserido com sucesso!");
+            document.location = "/contato/consulta-contato.html";
         } else {
             const errors = responseData.data.errors;
-            alert("Pessoa não encontrada:\n" + errors.join("\n"));
+            alert("Erro ao inserir:\n" + errors.join("\n"));
         }
-	}
-
-	document.addEventListener("DOMContentLoaded", async function(event) {
-        await loadInfoPessoa();
-    });
+    }
 </script>
