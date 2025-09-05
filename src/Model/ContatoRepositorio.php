@@ -3,6 +3,7 @@
 namespace Model;
 
 use Core\EntityManagerSingleton;
+use Core\Exception\HttpException;
 use Doctrine\ORM\EntityManager;
 use Exception;
 
@@ -59,7 +60,11 @@ class ContatoRepositorio implements IContatoRepositorio{
         return $contatos;
     }
     public function buscar(int $id): Contato{
-        $contatos = $this->entityManager->getRepository(Contato::class)->find($id);
-        return $contatos;
+        $contato = $this->entityManager->getRepository(Contato::class)->find($id);
+
+        if($contato == null){
+            throw new HttpException(400, ['Contato não encontrado']);
+        }
+        return $contato;
     }
 }

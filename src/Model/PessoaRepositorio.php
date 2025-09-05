@@ -3,6 +3,7 @@
 namespace Model;
 
 use Core\EntityManagerSingleton;
+use Core\Exception\HttpException;
 use Doctrine\ORM\EntityManager;
 use Exception;
 
@@ -59,7 +60,11 @@ class PessoaRepositorio implements IPessoaRepositorio{
         return $pessoas;
     }
     public function buscar(int $id): Pessoa{
-        $pessoas = $this->entityManager->getRepository(Pessoa::class)->find($id);
-        return $pessoas;
+        $pessoa = $this->entityManager->getRepository(Pessoa::class)->find($id);
+
+        if($pessoa == null){
+            throw new HttpException(400, ['Pessoa não encontrada']);
+        }
+        return $pessoa;
     }
 }
