@@ -27,7 +27,7 @@ class Pessoa{
     #[OneToMany(mappedBy: "pessoa", targetEntity: Contato::class)]
     private Collection $contatos;
 
-    public function __construct($nome, $cpf, $id = null){
+    public function __construct($nome, $cpf, $id = 0){
         $this->nome = $nome;
         $this->cpf = $cpf;
         $this->contatos = new ArrayCollection();
