@@ -30,6 +30,7 @@ services:
       - ./bin:/var/www/html/bin
       - ./composer.json:/var/www/html/composer.json
       - ./.env:/var/www/html/.env
+      - ./.entrypoint.sh:/usr/local/bin/.entrypoint.sh
 
   banco:
     image: postgres:latest
