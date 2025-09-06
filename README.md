@@ -34,8 +34,7 @@ Dentro do código fonte do projeto, optei por separar a responsabilidade da part
 
 #### Model
 
-A pasta **Model** acabei optando por utilizar um padrão de entidade e _repository_, onde possuo as entidades de **Pessoa
-** e **Contato** e os **_Repositories_** para contato e pessoa.
+A pasta **Model** acabei optando por utilizar um padrão de entidade e _repository_, onde possuo as entidades de **Pessoa** e **Contato** e os **_Repositories_** para contato e pessoa.
 
 #### Controller
 
@@ -97,7 +96,7 @@ OBS: É necessário possuir docker instalado.
 ## Minhas considerações
 
 Particularmente, achei que foi um desafio interessante de desenvolver, principalmente o gerenciamento dos endpoints do
-backend, Inicialmente utilizei attributes do PHP para gerenciar os endpoints, mas optei por removê-los e adotar uma
+backend, inicialmente utilizei attributes do PHP para gerenciar os endpoints, mas optei por removê-los e adotar uma
 abordagem mais simples, adequada ao escopo reduzido do desafio. Também pude abordar uma estratégia de desenvolvimento
 que hoje em dia não abordo tanto, que seria o Test Driven Development, porém depois de um tempo vai acostumando e fica
 interessante pensar nessa engenharia reversa.
