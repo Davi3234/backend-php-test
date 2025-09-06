@@ -2,8 +2,6 @@
 
 ## Sistema de Contatos
 
----
-
 Foi desenvolvido um sistema de gerenciamento de pessoas e contatos.
 
 ### Tecnologias utilizadas
@@ -14,11 +12,7 @@ Foi desenvolvido um sistema de gerenciamento de pessoas e contatos.
 - **Ambiente**: Docker
 - **Gerenciamento das Dependências**: Composer
 
----
-
 ## Escopo do Projeto
-
----
 
 - O escopo da arquitetura das pastas foi dividida em:
     - **bin** => Parte do gerenciamento do doctrine.
@@ -58,11 +52,8 @@ desenvolver a parte lógica do sistema, os testes unitários estão na pasta **T
 Optei por manter as views dentro do src para simplificar o escopo, embora saiba que em um projeto real a separação entre
 frontend e backend seria mais adequada.
 
----
-
 ## Docker
 
----
 Na parte de containerização utilizando docker, optei por inicializar 3 containers:
 
 - Backend. (**localhost:8080**)
@@ -70,11 +61,7 @@ Na parte de containerização utilizando docker, optei por inicializar 3 contain
 - Banco de dados. (**localhost:5433**) <- Foi utilizado a porta 5433 para não conflitar com a porta de outro postgreSQL
   local.
 
----
-
 ## Rodando o projeto
-
----
 
 OBS: É necessário possuir docker instalado.
 
@@ -107,11 +94,7 @@ OBS: É necessário possuir docker instalado.
     ```
   - Instalar as dependências do composer com ```composer install``` e depois rodar o mesmo comando de cima na raíz do projeto.
 
----
-
 ## Minhas considerações
-
---- 
 
 Particularmente, achei que foi um desafio interessante de desenvolver, principalmente o gerenciamento dos endpoints do
 backend, Inicialmente utilizei attributes do PHP para gerenciar os endpoints, mas optei por removê-los e adotar uma
@@ -119,5 +102,4 @@ abordagem mais simples, adequada ao escopo reduzido do desafio. Também pude abo
 que hoje em dia não abordo tanto, que seria o Test Driven Development, porém depois de um tempo vai acostumando e fica
 interessante pensar nessa engenharia reversa.
 
----
 Qualquer dúvida entre em contato.
