@@ -82,6 +82,7 @@ OBS: É necessário possuir docker instalado.
 ```bash
     docker compose up --build -d
 ```
+ -> Caso ocorrer algum erro ao executar o entrypoint.sh pode ser por conta do arquivo entrypoint.sh quando vem com a codificação CRLF para um repositório clonado, logo seria só alterar para LF a codificação.
 
 5. Após a rede de containers ter sido inicializada corretamente, basta entrar na url **localhost:8081** e realizar os
    testes no frontend.
